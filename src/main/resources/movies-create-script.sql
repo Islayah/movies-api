@@ -88,4 +88,18 @@ create table if not exists movie_actor (
 );
 
 
+# Use below for now. Why? idk
+create database if not exists movies_db;
+
+use movies_db;
+
+create table if not exists movies(
+    id int unsigned not null auto_increment,
+    title varchar(255) not null,
+    year char(4) not null,
+    plot text,
+    primary key (id)
+);
+
+
 
