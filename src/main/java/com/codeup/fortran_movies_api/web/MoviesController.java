@@ -2,8 +2,12 @@ package com.codeup.fortran_movies_api.web;
 
 import com.codeup.fortran_movies_api.data.Movie;
 import com.codeup.fortran_movies_api.data.MoviesRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,6 +114,15 @@ public class MoviesController {
         System.out.println(moviesToAdd.getClass()); // Spring turns moviesToAdd into an array list
 //        sampleMovies.addAll(moviesToAdd); // addAll (on the Collection object) allows us to add all the elements from one collection to another in a single line
         moviesRepository.saveAll(moviesToAdd);
+    }
+
+    @DeleteMapping("{id}") // /api/movies/{id} -> api/movies/3 DELETED
+    public void deleteById(@PathVariable int id, HttpServletResponse response) throws IOException {
+        try {
+            moviesRepository.deleteById(id);
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No match movie with ID: " + id);
+        }
     }
 
     private List<Movie> setMovies() {
